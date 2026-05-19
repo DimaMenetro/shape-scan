@@ -1,0 +1,6 @@
+﻿{
+    "rust-analyzer.cargo.targetDir":  "target/ra-check",
+    "rust-analyzer.check.extraArgs":  [
+                                          "--target-dir=target/ra-check"
+                                      ]
+}

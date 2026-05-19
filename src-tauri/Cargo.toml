@@ -1,0 +1,23 @@
+[package]
+name = "shape-scan-ui"
+version = "2.0.0-alpha"
+edition = "2021"
+description = "Tauri frontend for shape-scan geometric threat analysis"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+# The analysis engine (package name = shape-scan, lib name = shape_scan)
+shape_scan = { path = "..", package = "shape-scan" }
+
+# Tauri framework
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+
+# Serialization (for IPC)
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Persistence (Step 5 — scan history)
+rusqlite = { version = "0.31", features = ["bundled"] }

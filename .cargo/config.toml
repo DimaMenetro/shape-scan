@@ -1,0 +1,13 @@
+# shape-scan build configuration
+# 
+# Windows file-handle contention fix:
+# Parallel codegen + real-time file scanning (Defender/Indexer) causes
+# "os error 32" when rustc tries to remove .o files that a filter driver
+# still has open. Reducing parallelism prevents the race.
+# See: https://github.com/rust-lang/rust/issues/94073
+
+[build]
+jobs = 1
+
+[profile.dev]
+codegen-units = 4
