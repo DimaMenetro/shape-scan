@@ -1,4 +1,28 @@
+# Rust build output
 /target
+/target-dev
+/target-tauri
+**/target
+
+# Cargo backups
 Cargo.lock.bak
+
+# Tauri / frontend caches
+/ui/.fallow
+
+# Editor temp files
 *.swp
+*.swo
+*~
+
+# OS metadata
 .DS_Store
+Thumbs.db
+
+# Local env files (never commit secrets)
+.env
+.env.local
+
+# Private documentation (never committed to the public repo)
+docs/private/
+

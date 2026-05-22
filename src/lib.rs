@@ -1,15 +1,26 @@
-//! Library crate for `shape-scan`.
+//! # Shape-Scan / TEM v2.0
 //!
-//! Provides entropy and topological "shape" analysis of arbitrary byte
-//! streams, plus section-aware analysis for known executable formats
-//! (ELF, PE, Mach-O). Higher-level scoring is exposed via [`scan`].
+//! Geometric threat analysis engine. Measures the mathematical shape of files
+//! to detect malware through topology, entropy, and intent — not signatures.
+//!
+//! ## Architecture
+//!
+//! ```text
+//! Raw Binary → TFEA (entropy) → Markov (microstructure) → TCGE (topology)
+//!            → AISE (intent) → CQSF (firewall + verdict) → Numeric Report
+//! ```
+//!
+//! The Semantic Firewall (CQSF) ensures only numeric feature vectors
+//! leave the analysis pipeline. No decoded strings, no reconstructed
+//! code, no natural language crosses this boundary.
 
-pub mod entropy;
-pub mod scan;
-pub mod sections;
-pub mod shape;
+pub mod aise;
+pub mod cli;
+pub mod cqsf;
+pub mod markov;
+pub mod pipeline;
+pub mod tcge;
+pub mod tfea;
 
-pub use entropy::{EntropyReport, WindowEntropy};
-pub use scan::{scan_path, FileReport, RiskLevel};
-pub use sections::{SectionEntropy, SectionReport};
-pub use shape::{byte_histogram, ShapeReport};
+pub use cqsf::{TEMReport, Verdict};
+pub use pipeline::scan_file;

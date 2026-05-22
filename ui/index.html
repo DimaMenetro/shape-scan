@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>shape-scan v2.0 — Geometric Threat Analysis</title>
+  <meta name="description" content="Measures the mathematical shape of files to detect malware through topology, entropy, and intent.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- DS-001: Third Ambient Orb (mid-page refraction source) -->
+  <div class="ambient-orb ambient-orb-3" aria-hidden="true"></div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- Header -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <header id="app-header">
+    <div class="header-left">
+      <div class="logo-mark">
+        <svg viewBox="0 0 32 32" width="28" height="28">
+          <polygon points="16,2 30,24 2,24" fill="none" stroke="var(--wire-primary)" stroke-width="2"/>
+          <polygon points="16,8 24,20 8,20" fill="none" stroke="var(--wire-secondary)" stroke-width="1.5"/>
+          <circle cx="16" cy="16" r="3" fill="var(--wire-primary)" opacity="0.6"/>
+        </svg>
+      </div>
+      <h1>shape-scan <span class="version">v2.0</span></h1>
+    </div>
+    <div class="header-right">
+      <span class="subtitle">Geometric Threat Analysis</span>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- Main Content -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <main id="app-main">
+
+    <!-- Scan Input Panel -->
+    <section id="scan-panel" class="panel glass-panel">
+      <div class="scan-input-row">
+        <label for="file-path-input" class="sr-only">File path</label>
+        <input
+          type="text"
+          id="file-path-input"
+          placeholder="Enter file path or click Browse..."
+          spellcheck="false"
+          autocomplete="off"
+        />
+        <button id="browse-btn" type="button" title="Browse for file">
+          <span class="btn-icon">📁</span>
+        </button>
+        <button id="scan-btn" type="button">
+          <span class="btn-icon">◈</span>
+          <span class="btn-text">Scan</span>
+        </button>
+      </div>
+      <div id="scan-status" class="scan-status hidden"></div>
+    </section>
+
+    <!-- Results Container (hidden until scan completes) -->
+    <section id="results-container" class="hidden">
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Verdict Banner -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="verdict-banner" class="verdict-banner glass-panel">
+        <div class="verdict-icon" id="verdict-icon">✓</div>
+        <div class="verdict-info">
+          <div class="verdict-label" id="verdict-label">CLEAR</div>
+          <div class="verdict-meta">
+            <span id="result-size">—</span> bytes
+            · <span id="result-hash">—</span>
+            · <span id="result-duration">—</span>ms
+          </div>
+        </div>
+        <div class="verdict-confidence">
+          <span class="confidence-value" id="confidence-value">—</span>
+          <span class="confidence-label">confidence</span>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Score Bars -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="score-bars" class="score-bars glass-panel">
+        <div class="score-row">
+          <span class="score-label">Entropy</span>
+          <div class="score-track"><div class="score-fill" id="score-entropy"></div></div>
+          <span class="score-value" id="score-entropy-val">0%</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Topology</span>
+          <div class="score-track"><div class="score-fill" id="score-topology"></div></div>
+          <span class="score-value" id="score-topology-val">0%</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Intent</span>
+          <div class="score-track"><div class="score-fill" id="score-intent"></div></div>
+          <span class="score-value" id="score-intent-val">0%</span>
+        </div>
+        <div class="score-row composite">
+          <span class="score-label">Composite</span>
+          <div class="score-track"><div class="score-fill" id="score-composite"></div></div>
+          <span class="score-value" id="score-composite-val">0%</span>
+        </div>
+      </div>
+
+      <!-- Detection Flags -->
+      <div id="detection-flags" class="detection-flags hidden">
+        <div id="flag-backdoor" class="flag-badge hidden">⚠ Backdoor Pattern</div>
+        <div id="flag-dropper" class="flag-badge hidden">⚠ Dropper Pattern</div>
+        <div id="flag-webshell" class="flag-badge hidden">⚠ Webshell Pattern</div>
+        <div id="flag-mismatch" class="flag-badge hidden">⚠ Header Mismatch</div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Analysis Brief (Context-Aware Narrative) -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="analysis-brief" class="analysis-brief glass-panel hidden">
+        <div class="brief-header">
+          <h2>Analysis Brief</h2>
+          <span id="brief-timestamp" class="brief-timestamp">—</span>
+          <button id="brief-toggle-btn" class="viewport-ctrl-btn" title="Toggle brief">▼</button>
+        </div>
+        <div id="brief-content" class="brief-content">
+          <!-- Dynamically populated by analysis_brief.js -->
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Dual-Render Viewport (Step 2C) -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="dual-viewport" class="dual-viewport glass-panel">
+        <div class="viewport-header">
+          <h2>Morphological Analysis</h2>
+          <div class="viewport-controls-bar">
+            <button id="viewport-reset-btn" class="viewport-ctrl-btn" title="Reset camera (double-click viewport)">⟳</button>
+          </div>
+        </div>
+        <div class="viewport-row">
+          <!-- Primary Viewport (70%) -->
+          <div id="viewport-primary" class="viewport-slot viewport-primary">
+            <span class="viewport-label">Morphological Mugshot</span>
+            <div id="viewport-loading" class="viewport-overlay hidden">
+              <div class="spinner"></div>
+              <span>Building geometry...</span>
+            </div>
+            <!-- HUD Badges (Step 7B — Chrome Subsystem) -->
+            <div class="hud-badges">
+              <span id="hud-entropy" class="hud-badge hud-entropy">—</span>
+              <span id="hud-threat" class="hud-badge hud-threat">—</span>
+              <span id="hud-verdict" class="hud-badge hud-verdict">—</span>
+            </div>
+          </div>
+          <!-- Thumbnail Viewport (30%) -->
+          <div id="viewport-thumb" class="viewport-slot viewport-thumb">
+            <span class="viewport-label">Toroidal Fingerprint</span>
+            <div class="viewport-swap-hint">Click to swap</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Causal Structure Graph (Step 3) -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="graph-panel" class="graph-panel glass-panel">
+        <div class="section-header">
+          <h2>Causal Structure Graph</h2>
+          <div class="graph-panel-controls">
+            <span id="graph-meta" class="section-meta">—</span>
+            <button id="graph-toggle-btn" class="viewport-ctrl-btn" title="Toggle graph panel">▼</button>
+          </div>
+        </div>
+        <div id="graph-container" class="graph-container"></div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Detail Lens (Step 2D) — Hidden by default -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="detail-lens-panel" class="detail-lens-panel glass-panel hidden">
+        <div class="detail-lens-header">
+          <h3>Focus Lens</h3>
+          <span id="detail-lens-range" class="detail-lens-range">—</span>
+          <button id="detail-lens-close" class="detail-lens-close" title="Close lens">✕</button>
+        </div>
+        <canvas id="detail-lens-canvas" width="800" height="200"></canvas>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Entropy Heatmap -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="heatmap-section" class="heatmap-section glass-panel">
+        <div class="section-header">
+          <h2>Entropy Profile</h2>
+          <span class="section-meta" id="heatmap-meta">—</span>
+        </div>
+        <canvas id="entropy-heatmap" width="1200" height="60"></canvas>
+        <div class="heatmap-legend">
+          <span class="legend-low">0 bits</span>
+          <div class="legend-gradient"></div>
+          <span class="legend-high">8 bits</span>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Component Breakdown Dashboard (Step 7C) -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="component-dashboard" class="component-dashboard">
+        <div class="dashboard-header">
+          <h2>Component Breakdown</h2>
+          <span class="dashboard-meta" id="dashboard-meta">TEM Pipeline Analysis</span>
+        </div>
+
+        <!-- TFEA: Entropy Module -->
+        <div class="component-card glass-panel" id="card-tfea" data-module="tfea">
+          <div class="component-viz">
+            <canvas id="viz-tfea" width="200" height="150"></canvas>
+          </div>
+          <div class="component-stats">
+            <div class="component-title">
+              <span class="component-icon">◇</span>
+              <span class="component-name">TFEA — Entropy Audit</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-label">Shannon H̄</span>
+                <span class="stat-value" id="stat-tfea-shannon">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Compression ρ</span>
+                <span class="stat-value" id="stat-tfea-compression">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Structured %</span>
+                <span class="stat-value" id="stat-tfea-structured">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Peak σ</span>
+                <span class="stat-value" id="stat-tfea-peak">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">H Variance</span>
+                <span class="stat-value" id="stat-tfea-variance">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Anomaly Flags</span>
+                <span class="stat-value" id="stat-tfea-flags">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-sparkline">
+            <canvas id="spark-tfea" width="120" height="40"></canvas>
+          </div>
+        </div>
+
+        <!-- Markov Module -->
+        <div class="component-card glass-panel" id="card-markov" data-module="markov">
+          <div class="component-viz">
+            <canvas id="viz-markov" width="200" height="150"></canvas>
+          </div>
+          <div class="component-stats">
+            <div class="component-title">
+              <span class="component-icon">◎</span>
+              <span class="component-name">Markov — Microstructure</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-label">Bigram H</span>
+                <span class="stat-value" id="stat-markov-bigram">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Conditional H</span>
+                <span class="stat-value" id="stat-markov-conditional">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Edge Density</span>
+                <span class="stat-value" id="stat-markov-density">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Distinct Pairs</span>
+                <span class="stat-value" id="stat-markov-pairs">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Row H σ</span>
+                <span class="stat-value" id="stat-markov-rowstd">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Fingerprint</span>
+                <span class="stat-value mono-hash" id="stat-markov-fp">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-sparkline">
+            <canvas id="spark-markov" width="120" height="40"></canvas>
+          </div>
+        </div>
+
+        <!-- TCGE: Causal Graph Module -->
+        <div class="component-card glass-panel" id="card-tcge" data-module="tcge">
+          <div class="component-viz">
+            <canvas id="viz-tcge" width="200" height="150"></canvas>
+          </div>
+          <div class="component-stats">
+            <div class="component-title">
+              <span class="component-icon">⬡</span>
+              <span class="component-name">TCGE — Code Geometry</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-label">Blocks</span>
+                <span class="stat-value" id="stat-tcge-nodes">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Edges</span>
+                <span class="stat-value" id="stat-tcge-edges">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Back-Edge %</span>
+                <span class="stat-value" id="stat-tcge-backedge">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">SCC Ratio</span>
+                <span class="stat-value" id="stat-tcge-scc">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Graph ρ</span>
+                <span class="stat-value" id="stat-tcge-density">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Cycles</span>
+                <span class="stat-value" id="stat-tcge-cycles">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-sparkline">
+            <canvas id="spark-tcge" width="120" height="40"></canvas>
+          </div>
+        </div>
+
+        <!-- AISE: Intent Module -->
+        <div class="component-card glass-panel" id="card-aise" data-module="aise">
+          <div class="component-viz">
+            <canvas id="viz-aise" width="200" height="150"></canvas>
+          </div>
+          <div class="component-stats">
+            <div class="component-title">
+              <span class="component-icon">⚡</span>
+              <span class="component-name">AISE — Intent Scoring</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-label">Intent Score</span>
+                <span class="stat-value" id="stat-aise-intent">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Pattern Hits</span>
+                <span class="stat-value" id="stat-aise-hits">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Categories</span>
+                <span class="stat-value" id="stat-aise-cats">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Shell+Decode</span>
+                <span class="stat-value" id="stat-aise-shell">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Net+FS</span>
+                <span class="stat-value" id="stat-aise-netfs">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Eval+Obfusc</span>
+                <span class="stat-value" id="stat-aise-eval">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-sparkline">
+            <canvas id="spark-aise" width="120" height="40"></canvas>
+          </div>
+        </div>
+
+        <!-- CQSF: Composite Module -->
+        <div class="component-card glass-panel" id="card-cqsf" data-module="cqsf">
+          <div class="component-viz">
+            <canvas id="viz-cqsf" width="200" height="150"></canvas>
+          </div>
+          <div class="component-stats">
+            <div class="component-title">
+              <span class="component-icon">◆</span>
+              <span class="component-name">CQSF — Semantic Firewall</span>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-item">
+                <span class="stat-label">Anomaly Index</span>
+                <span class="stat-value" id="stat-cqsf-anomaly">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Composite</span>
+                <span class="stat-value" id="stat-cqsf-composite">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Confidence</span>
+                <span class="stat-value" id="stat-cqsf-confidence">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Duration</span>
+                <span class="stat-value" id="stat-cqsf-duration">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">File Type</span>
+                <span class="stat-value" id="stat-cqsf-type">—</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Verdict</span>
+                <span class="stat-value" id="stat-cqsf-verdict">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="component-sparkline">
+            <!-- CQSF gets a composite sparkline — all 3 threat scores over time -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Fingerprint -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="fingerprint-section" class="fingerprint-section glass-panel">
+        <span class="fp-label">Structural Fingerprint</span>
+        <code id="fingerprint-value" class="fp-value">—</code>
+      </div>
+
+    </section>
+
+      <!-- ════════════════════════════════════════════ -->
+      <!-- Scan History (Step 5 — always visible) -->
+      <!-- ════════════════════════════════════════════ -->
+      <div id="history-panel" class="history-panel glass-panel">
+        <div class="section-header">
+          <h2>Scan History</h2>
+          <div class="history-panel-controls">
+            <span id="history-count" class="section-meta">—</span>
+            <button id="history-toggle-btn" class="viewport-ctrl-btn" title="Toggle history">▼</button>
+          </div>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </div>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="js/heatmap.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/render_swap.js"></script>
+  <script src="js/graph.js"></script>
+  <script src="js/markov.js"></script>
+  <script src="js/markov_torus.js"></script>
+  <script src="js/morphology.js"></script>
+  <script src="js/component_dashboard.js"></script>
+  <script src="js/focus_lens.js"></script>
+  <script src="js/analysis_brief.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

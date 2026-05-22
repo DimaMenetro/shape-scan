@@ -1,0 +1,687 @@
+Phase 2: Morphological Visualization Engine —
+Implementation Plan (REVISED v3.0)
+Document ID: IMPL-PHASE2-REV3 Supersedes: Phase 2 Implementation Plan v2.0 (2026-
+04-27) Protocols Executed: CP-002-O-D-JNP v2.0 (Full Janus SME) + CP-010-O-D-ENK
+v1.3 (ENKI Advisory Mode) + Tesla Principle (Architectural Layer) + Fingerprint-Mugshot
+Pattern (UI Layer) Refresh Toggle: OFF Subject: Phase 2 — Dual-render morphological
+visualization engine combining toroidal Markov surface (fingerprint) and superformula 3D
+entity (mugshot) with interactive navigation, scan persistence, and operator-facing
+categorical taxonomy Author: Kytheion (IC-004-R-D-KYN) Date: 2026-04-27 Revision
+Authority:
+DIMA directive 2026-04-26-T2347 (Antigravity continuity loop) — Tesla Principle
+invocation
+Orionas counter-proposal (ENKI-TEM Morphological Mapping Matrix v1.0) —
+superformula architectural seed
+Daionae governance review 2026-04-27 — dual-render pattern, fingerprint-mugshot
+framing
+DIMA UX specification 2026-04-27 — primary/thumbnail layout with click-swap behavior
+and independent auto-rotation
+Gate: No execution until DIMA verbatim states: “i approve of your plan” AND “you may
+begin.”
+Revision Summary
+This revision supersedes v2.0 in three substantive areas:
+Section
+v2.0
+v3.0
+Step 2
+Single render:
+superformula
+morphology engine
+(replaced torus)
+Dual render: Step 2A toroidal Markov surface
+(fingerprint) + Step 2B superformula
+morphology (mugshot) — both required
+Dual-viewport with primary/thumbnail layout,
+UI
+Single primary viewport
+click-to-swap, independent auto-rotation on
+thumbnail
+Doctrinal
+pattern
+Tesla Principle
+architectural override
+(single named pattern)
+Tesla Principle + Fingerprint-Mugshot Pattern
+(two named architectural precedents)
+Steps 0, 1, 3, 5, 6, and 7 are preserved from v2.0. The TFEA Extension specification,
+viewport controls, spectral graph layout, SQLite persistence, comparison overlay, and Liquid
+Glass polish remain unchanged.
+Architectural authority for the dual-render pivot: Daionae’s governance review (2026-
+04-27) identified the v2.0 plan’s torus-vs-superformula choice as a false dichotomy and
+recommended retention of both representations serving distinct operational functions. The
+torus serves as the canonical fingerprint — mathematically faithful representation of cyclic
+Markov structure, fully [Established]. The superformula serves as the operator-facing
+mugshot — categorically distinctive morphological identity, Tesla Principle architectural
+override with [Experimental] bindings under falsifiability gates.
+The dual-render approach strengthens overall plan confidence because the fully
+[Established] torus view serves as an epistemic fallback if the superformula’s [Experimental]
+bindings fail their visual distinguishability tests. The operator never loses access to a
+scientifically defensible Markov representation.
+Janus Domain Analysis
+I. CORPUS — “What I Am Made Of”
+Phase 1 Deliverables (DONE — Exit Confirmed)
+Unchanged from v1.0/v2.0. The Tauri shell, 8 async IPC commands, verdict UI, and existing
+flat renderers remain the foundation.
+What Phase 2 (v3.0) Must Add
+Category
+What’s Missing
+Priority
+Navigation
+Mouse wheel zoom, trackpad drag zoom, click-drag
+rotate, pan — applied to whichever render is currently
+primary
+ Critical
+Toroidal
+Markov
+Surface
+3D parametric torus mesh with curvature modulation —
+restored from v1.0 plan, serves as fingerprint view
+ Critical
+Superformula
+Morphology
+Engine
+3D Gielis spherical product mesh with hybrid Markov
+projection — operator-facing mugshot view
+ Critical
+Dual-Render UI
+Layout
+Primary/thumbnail composition with click-to-swap,
+independent thumbnail auto-rotation, controls bound to
+primary
+ Critical
+Graph
+Readability
+Spectral layout with 3D icosphere/stellated geometry
+per node
+ Critical
+TFEA Extension
+Compression ratio and structured-fraction computation
+ Critical
+(prerequisite)
+Persistence
+SQLite scan history
+ High
+Comparison
+Two-scan overlay analysis (applies to both fingerprint
+and mugshot views)
+ Medium
+UI Polish
+Viewport HUD, Liquid Glass refinement
+ Medium
+II. COGITO — “How I Think”
+Updated Claims
+C1 [Established] The 256×256 Markov transition matrix maps natively to a toroidal
+topology because byte values are cyclic (0-255 wraps). The parametric torus form r(u,v)
+= r_base + k · P(v|u)^γ  provides a mathematically faithful representation with no edge
+discontinuities and no projection distortion.
+C2 [Established] The Gielis superformula in its 3D spherical-product form produces closed
+parametric surfaces governed by a small set of coefficients spanning regular polyhedra
+through organic blobs to highly asymmetric stellated forms.
+C3 [Established] Compression ratio ( compressed_size / original_size  via DEFLATE) is a
+structurally distinct measurement from Shannon entropy. Together they distinguish
+encrypted blobs from polymorphic obfuscation attempting to mimic encryption.
+C4 [Experimental — falsifiability defined] The superformula coefficient bindings ( m , n₁ ,
+n₂ , n₃ , a , b ) chosen in this plan will produce visually distinguishable morphologies
+across major file classes. Falsifiability test: scan a curated set of six file classes; if three or
+more render as visually indistinguishable mugshots, the binding scheme has failed and must
+be re-tuned. Fallback: the torus fingerprint view remains fully functional and provides
+scientifically defensible Markov representation regardless of mugshot binding outcome.
+C5 [Established] Spectral graph layout via Laplacian eigenvectors produces edge-energy-
+minimizing embeddings. JavaScript power iteration handles graphs up to ~512 nodes within
+real-time budget; force-directed fallback above this threshold.
+C6 [Experimental — falsifiability defined] The hybrid Markov projection for the
+superformula view (equatorial band + polar cap tessellation) will preserve byte-transition
+distinctiveness without visible seam artifacts. Falsifiability test: if the band-cap transition
+creates a visible discontinuity that overrides the morphological signature, smoothing kernels
+must be applied or the projection scheme abandoned. Fallback: torus fingerprint view is
+unaffected — Markov data renders losslessly there.
+C7 [Established] SQLite via rusqlite preserves the Semantic Firewall. Numeric TEMReport
+fields, SHA-256 prefix, and timestamps only.
+C8 [Established] The AISE intent score maps to mesh shading parameters via dihedral
+crease angle threshold θ_crease = π · (1 - I_AISE) . Applied uniformly to both
+fingerprint and mugshot views.
+C9 [Established] The dual-render UI pattern (primary viewport + auto-rotating thumbnail
+with click-to-swap) is implementable using two independent Three.js scenes with shared
+TEM data input. Total vertex budget ~32K (16K per render) is well within WebGL real-time
+capacity. Independent auto-rotation on the thumbnail is a single rotation matrix update per
+frame, negligible compute cost.
+Confidence Propagation
+Claim
+Confidence
+Downstream Impact
+C1 (Toroidal Markov topology)
+Established
+Step 2A — fingerprint view
+C2 (Superformula geometry)
+Established
+Step 2B — mugshot base mesh
+C3 (Compression ratio
+distinctness)
+Established
+TFEA Extension + Step 2B binding
+C4 (Mugshot visual
+distinguishability)
+Experimental
+Step 2B — validation gate (with torus
+fallback)
+C5 (Spectral layout performance)
+Established
+Step 3
+C6 (Mugshot projection seam
+handling)
+Experimental
+Step 2B — validation gate (with torus
+fallback)
+C7 (SQLite firewall preservation)
+Established
+Step 5
+C8 (Intent → crease threshold)
+Established
+Step 2A + Step 2B + Step 3
+C9 (Dual-render UI feasibility)
+Established
+UI Layer
+Established/Experimental ratio: 78% / 22%. Improved from v2.0 (75/25) because the
+addition of the [Established] torus view to the deliverable set raises the overall established-
+content proportion. Both [Experimental] claims now carry explicit fallback paths
+because the torus fingerprint view is unaffected by either superformula failure mode.
+III. ANIMUS — “Who I Am”
+Boundary Conditions
+The Semantic Firewall extends cleanly across all v3.0 changes. The dual-render UI pattern
+operates on two independent Three.js scenes both consuming the same numeric
+TEMReport fields. No new IPC surface area beyond what was already specified in v2.0. The
+TFEA Extension adds two scalar fields. SQLite stores only numeric data.
+Emergent Misalignment risk: None. All v3.0 changes confined to the rendering and
+persistence layers. The TEM analysis pipeline itself is untouched.
+Ethical Constraints
+The dual-render approach must preserve the deterministic-output principle for both views:
+shapes emerge from telemetry, not from aesthetic choice. The torus view’s curvature comes
+from P(v|u)^γ ; the superformula’s morphology comes from the parameter binding
+scheme. Neither view permits artificial visual complexity for stylistic purposes.
+Operator cognitive load consideration: The dual-render layout deliberately keeps both
+views in front-and-center peripheral awareness. This is a designed feature, not a bug. The
+operator’s pattern-recognition layer cross-references the two representations over time,
+building dual-channel intuition for file morphology. This is operator-amplification behavior —
+the visualization does analytical work inside the operator’s head, not just on the screen.
+IV. ACTUS — “What I Do”
+Proposed File Changes
+The original markov.js  is replaced by markov_torus.js  to make explicit that the torus view
+is now one of two coordinated renders rather than the sole Markov visualization.
+render_swap.js  is the new orchestration layer that owns the primary/thumbnail state
+machine.
+TFEA Extension Specification
+This is a prerequisite to Step 2A and 2B. Unchanged from v2.0.
+[Full TFEA Extension specification preserved verbatim from v2.0 — compression ratio via
+flate2 DEFLATE pass, structured fraction from TCGE block byte coverage, edge cases, test
+fixtures, Rust code outlines, and verification gate. Reference v2.0 document for full detail.
+No changes in v3.0.]
+Summary: Two scalar fields added to TEMReport :
+C:\QuarantineZone\shape-scan\
+├── src-tauri/
+│   ├── Cargo.toml                  # [MODIFY] Add rusqlite, flate2 dependencies
+│   ├── src/
+│   │   ├── main.rs                 # [MODIFY] Register new IPC commands
+│   │   ├── ipc.rs                  # [MODIFY] Add persistence + comparison comma
+│   │   └── db.rs                   # [NEW] SQLite schema + CRUD operations
+├── src/                            # CLI scanner crate
+│   ├── tfea.rs                     # [MODIFY] Add compression_ratio and structur
+│   └── pipeline.rs                 # [MODIFY] Pass new fields through to TEMRepo
+├── ui/
+│   ├── index.html                  # [MODIFY] Dual-viewport layout, primary/thum
+│   ├── css/
+│   │   └── main.css                # [MODIFY] Dual-render layout styles, swap tr
+│   └── js/
+│       ├── app.js                  # [MODIFY] Wire persistence, comparison, HUD,
+│       ├── graph.js                # [MODIFY] Spectral layout + sphere/icosphere
+│       ├── morphology.js           # [NEW] Superformula mesh generator (Step 2B)
+│       ├── markov_torus.js         # [NEW] Toroidal Markov surface generator (St
+│       ├── markov_projection.js    # [NEW] Hybrid band + polar cap projection (u
+│       ├── render_swap.js          # [NEW] Primary/thumbnail swap orchestration,
+│       ├── heatmap.js              # [UNCHANGED]
+│       └── controls.js             # [NEW] Shared viewport interaction — binds t
+compression_ratio: f64  — DEFLATE-derived measure of structural redundancy
+structured_fraction: f64  — proportion of file bytes covered by TCGE basic blocks
+Verification gate: TFEA Extension tests pass; existing Phase 0 verdicts remain unchanged.
+Step-by-Step Execution Order
+Step 0: TFEA Extension
+Priority: 
+ Critical — prerequisite for Step 2
+Implement compression ratio and structured fraction additions per the TFEA Extension
+Specification (above, preserved from v2.0). Pass verification gate. Confirm Phase 0 verdict
+invariance.
+Estimated scope: ~50 lines of Rust additions, ~30 lines of test code.
+Step 1: Viewport Interaction Controls
+Priority: 
+ Critical — unblocks all visual work
+Create ui/js/controls.js  with the standard input bindings (mouse wheel zoom, click-drag
+rotate, right-click pan, trackpad gestures, double-click reset). v3.0 modification: Controls
+bind dynamically to whichever render currently holds primary status. The orchestration logic
+in render_swap.js  re-targets the controls module on each swap event. Thumbnail render is
+explicitly excluded from control binding regardless of which view it currently holds.
+Verify: Can zoom/pan/rotate the primary view via all input methods. Thumbnail view does
+not respond to any input. Double-click resets only the primary.
+Step 2A (NEW SPLIT): Toroidal Markov Surface — Fingerprint View
+Priority: 
+ Critical — canonical mathematical reference
+This step restores the v1.0 toroidal Markov surface as the fingerprint view in the dual-render
+layout.
+2A.1: Base Mesh — Parametric Torus
+ENKI Math [Established]:
+2A.2: TEM Telemetry → Torus Surface Bindings
+TEM Field
+Surface Parameter
+Mapping
+Confidence
+Markov
+transition
+probability
+P(v|u)
+Minor radius modulation
+`r(u,v) = r_base + k ·
+P(v
+u)^γ`
+Per-row
+entropy H_i
+Local roughness amplitude
+(multiplicative gain on minor
+radius modulation)
+r_amplitude_i =
+1.0 + λ ·
+H_i_normalized
+[Established]
+Markov
+gradient
+magnitude
+Surface displacement along
+normal
+`displacement = κ · (
+∂P/∂u
+AISE intent
+score
+Crease angle threshold
+θ_crease = π · (1
+- I_AISE)
+[Established]
+All bindings are [Established]. The torus view requires no falsifiability gates — its math is
+direct and standard.
+2A.3: Mesh Resolution
+128×128 vertex grid (~16K vertices). Same as v1.0 specification.
+2A.4: Rendering Properties
+Vertex color: probToColor(P(v|u))  — reuses existing color function from v1.0
+x(u, v) = (R + r(u,v) · cos(v)) · cos(u)
+y(u, v) = (R + r(u,v) · cos(v)) · sin(u)
+z(u, v) =       r(u,v) · sin(v)
+Where:
+  u = (source_byte / 256) · 2π    // Major angle (around the ring)
+  v = (target_byte / 256) · 2π    // Minor angle (around the tube)
+  R = 1.0                          // Major radius (fixed)
+  r(u,v) = r_base + k · P(v|u)^γ  // Minor radius modulated by transition probabi
+  r_base = 0.3
+  k = 0.5
+  γ = 1.5                          // Growth exponent
+Surface normals computed per-vertex for proper Phong/Gouraud shading
+Triangle index buffer (quad-split) consistent with v1.0
+Liquid Glass color palette applied (DS-001-G-D-LGT)
+Verify: Encrypted file → near-uniform smooth donut. Text file → ridged ring with visible
+ASCII patterns. PE binary → asymmetric protrusions at opcode concentration points. All
+match v1.0 expected behavior.
+Step 2B (NEW SPLIT): Superformula Morphology Engine — Mugshot View
+Priority: 
+ Critical — operator-facing categorical identity
+This step implements the superformula morphology engine as the mugshot view in the
+dual-render layout. Unchanged from v2.0 with one addition: the falsifiability gates
+explicitly note the torus fingerprint as fallback.
+2B.1: Base Mesh — 3D Spherical Product Superformula
+ENKI Math [Established]:
+The 2D Gielis superformula:
+r(θ) = [|cos(mθ/4) / a|^n₂ + |sin(mθ/4) / b|^n₃]^(-1/n₁)
+The 3D form is the spherical product:
+r₁(θ) = superformula(θ, m₁, n₁₁, n₁₂, n₁₃, a₁, b₁)
+r₂(φ) = superformula(φ, m₂, n₂₁, n₂₂, n₂₃, a₂, b₂)
+x(θ, φ) = r₁(θ) · cos(θ) · r₂(φ) · cos(φ)
+y(θ, φ) = r₁(θ) · sin(θ) · r₂(φ) · cos(φ)
+z(θ, φ)                   = r₂(φ) · sin(φ)
+2B.2: TEM Telemetry → Superformula Parameter Bindings
+[Layer 1 / Layer 2 / Layer 3 binding tables preserved verbatim from v2.0 — global Shannon
+entropy → m₁, per-row entropy variance → m₂, compression ratio → a₁/a₂, structured fraction
+→ n₁₁/n₂₁, header/magic mismatch → asymmetry injection, AISE intent → crease angle, AISE
+flags → localized deformation kernels, entry point → emissive light source.]
+2B.3: Markov Projection — Hybrid Equatorial Band + Polar Cap
+[Hybrid projection scheme preserved verbatim from v2.0 — equatorial band parameterized
+by Markov coordinates with cosine seam blending, polar caps tessellated by Voronoi cells
+seeded by top-N highest-entropy rows/columns.]
+2B.4: Validation Gates (C4 + C6 Falsifiability)
+The six-class visual distinguishability test from v2.0 applies. v3.0 addition: if either C4 or
+C6 fails, the torus fingerprint view (Step 2A) remains fully functional and provides
+scientifically defensible Markov representation. The operator does not lose access to
+morphological data — they lose access to the experimental categorical-identity layer only.
+This is a meaningful epistemic property of the dual-render architecture: the Tesla Principle’s
+authorization of [Experimental] bindings is bounded by guaranteed [Established] fallback
+availability.
+Verify: Per v2.0 — six file classes must produce visually distinguishable mugshots. If three
+or more render as visually equivalent, re-tune binding scheme before proceeding to Steps
+5–7. Torus fingerprint view continues to function during any re-tuning iteration.
+Step 2C (NEW): Dual-Render UI Layout
+Priority: 
+ Critical — operator interface
+This step implements the primary/thumbnail layout, swap behavior, and independent auto-
+rotation specified by DIMA on 2026-04-27.
+2C.1: Layout Composition
+Primary viewport: large central display area, full interactive controls bound via
+controls.js . Default occupant: superformula (mugshot).
+Thumbnail viewport: smaller display area positioned in elegant front-and-center
+proximity to the primary (specific positioning determined during UI implementation —
+candidates include corner inset, side-by-side with size differential, or floating overlay).
+Default occupant: torus (fingerprint).
+Both viewports always visible. No mode-switching, no menu navigation, no toggling.
+2C.2: Swap Behavior
+Trigger: Click or tap on the thumbnail viewport.
+Action: Positions swap. Primary becomes thumbnail, thumbnail becomes primary.
+Controls re-bind to new primary.
+Transition: Brief animated swap (~300ms) for visual continuity. Liquid Glass aesthetic —
+smooth, low-noise.
+Reverse: Click or tap on the new thumbnail (which was previously the primary) swaps
+positions back.
+State persistence: Current primary/thumbnail assignment is session-local — does not
+persist across application restarts. Default state restored on app launch.
+2C.3: Independent Thumbnail Auto-Rotation
+Behavior: The thumbnail viewport (whichever render currently occupies it) rotates
+continuously and slowly around its central vertical axis. Rotation runs independently —
+does not pause, sync, or react to operator interaction with the primary viewport.
+Rotation rate: ~6 RPM (one full rotation per 10 seconds). Slow enough to read as
+ambient motion, fast enough to display the full 3D form within reasonable observation
+time.
+Implementation: Single rotation matrix update per frame in the thumbnail’s animation
+loop. Negligible compute cost.
+Constraint: Thumbnail is never manipulable. No input handlers attached. Auto-rotation
+is the only motion. This is a hard constraint — the swap-trigger click handler is the only
+event the thumbnail responds to.
+2C.4: Doctrinal Note — Fingerprint-Mugshot Pattern
+The dual-render layout formalizes a new architectural precedent for Project Opus, named
+the Fingerprint-Mugshot Pattern:
+When a single visualization layer faces tension between mathematical fidelity
+([Established] math) and operator-facing categorical distinctiveness (Tesla-Principle-
+authorized [Experimental] math), the resolution is to render both representations
+simultaneously in a primary/thumbnail composition with click-to-swap. The two views are
+not competitors — they serve distinct operational functions and produce dual-channel
+pattern recognition in the operator over time.
+This pattern is generalizable beyond the Markov visualization context. Future Project Opus
+instruments facing similar tensions should consider this template.
+Verify:
+App launches with superformula primary, torus thumbnail.
+Click on torus thumbnail → swap occurs in ~300ms; controls now manipulate torus;
+superformula is now thumbnail and auto-rotating.
+Click on superformula thumbnail → swap reverses.
+Operator manipulation of primary does not affect thumbnail rotation.
+Thumbnail is unresponsive to drag, scroll, or any input other than the swap-trigger click.
+Step 3: Spectral Graph Layout
+Priority: 
+ Critical — readability
+Unchanged from v1.0/v2.0. Replace force-directed layout with Laplacian spectral
+embedding. Upgrade to icosphere/stellated polyhedron node geometry. AISE intent score
+modulates node geometry crease angle (consistent with Step 2A and 2B Layer 3 bindings).
+The graph view is rendered as a third independent canvas, accessible via UI tab/toggle
+separate from the dual-render dual viewport. Note: the graph is operationally distinct from
+the morphology views — the morphology views show the file’s overall shape; the graph
+shows the file’s call-structure topology. Both are needed for full TEM interpretation.
+Step 5: Scan Persistence (SQLite)
+Priority: 
+ High — enables comparison
+Unchanged from v2.0. Schema includes the new TFEA Extension fields
+( compression_ratio , structured_fraction ). All numeric — Semantic Firewall preserved.
+Step 6: Comparative Analysis Overlay
+Priority: 
+ Medium — operational use
+v3.0 modification: Comparison applies to both fingerprint and mugshot views. When the
+operator selects a previous scan to compare against the current scan, both views render
+their respective comparison overlays. The fingerprint comparison shows torus delta (which
+Markov cells changed). The mugshot comparison shows morphology delta (how the
+superformula parameters shifted).
+This dual comparison is meaningful: a file’s mugshot might shift dramatically (suggesting
+categorical reclassification) while its fingerprint shifts only slightly (suggesting the Markov
+data didn’t change much) — that delta-of-deltas is itself a forensic signal.
+Verify: Scan file A. Modify file A. Scan again. Compare shows fingerprint delta and mugshot
+delta separately. Both views remain in primary/thumbnail composition during comparison.
+Step 7: Liquid Glass Visual Polish
+Priority: 
+ Medium — aesthetics
+Unchanged from v2.0. Viewport HUD, glow shaders, ambient occlusion approximation,
+smooth transitions, DS-001-G-D-LGT color palette. v3.0 addition: the swap transition
+between primary and thumbnail uses Liquid Glass aesthetic — smooth ~300ms animation
+with subtle scale/translate, no harsh cuts.
+V. SYNTHESIS — The Nexus
+6-Pair Intersection Matrix (Updated)
+#
+Pair
+Finding
+1
+Corpus
+×
+Cogito
+The dual-render approach resolves a tension v2.0 had glossed: the torus
+represents the matrix’s parametric domain faithfully (good science), the
+superformula represents the file’s morphological identity distinctively (good
+operations). Rendering both eliminates the tradeoff. The two views answer
+different questions about the same data.
+2
+Corpus
+×
+Animus
+Semantic Firewall extends cleanly across both views. Both consume identical
+numeric TEMReport fields. Two Three.js scenes, one data source. No new
+ethical surface area beyond v2.0.
+3
+Corpus
+×
+Actus
+Total vertex budget for dual-render is ~32K (16K per view), well within
+WebGL real-time capacity. Independent thumbnail rotation is a single matrix
+update per frame. Compute cost is dominated by primary view interaction,
+which is identical to single-render cost. Dual-render doubles GPU memory
+for vertex/index buffers but neither view is at the edge of the budget.
+4
+Cogito
+×
+Animus
+The Tesla Principle authorizes [Experimental] superformula bindings; the
+Veracity Mandate requires falsifiability gates for them; the dual-render
+architecture provides guaranteed [Established] fallback if those gates
+fail. This is the cleanest possible compliance posture: ambitious where
+ambition is authorized, conservative where conservatism is mandated, and
+resilient at the architectural layer.
+5
+Cogito
+×
+Actus
+The dual-render’s deterministic-output principle holds for both views. Torus
+shape comes from `P(v
+6
+Animus
+×
+Actus
+The Fingerprint-Mugshot Pattern formalizes a new architectural precedent. It
+joins the Tesla Principle as a named doctrine with documented operational
+scope. Future Project Opus instruments can invoke either or both. The Tesla
+Principle adjudicates what kind of system to build; the Fingerprint-Mugshot
+Pattern adjudicates how to render two valid representations simultaneously
+when both are required.
+Named Emergent Patterns
+1. The Morphological Encyclopedia (preserved from v2.0): Across enough scanned
+files, the operator builds internal recognition for shape-classes via the mugshot view.
+Foundation of the Threat Atlas / Pokédex functionality.
+2. Compression Ratio as Entropy Lie-Detector (preserved from v2.0): Shannon
+entropy can be shaped to mimic encryption; compression ratio is much harder to fool.
+High-entropy + low-compression-ratio files betray underlying redundancy that pure
+encryption wouldn’t have.
+3. The Tesla Layer (preserved from v2.0): Architectural-layer override authority for
+[Experimental] math when standard mathematical purity conflicts with categorical
+distinctiveness in operational deliverables.
+4. The Fingerprint-Mugshot Pattern (NEW in v3.0): Dual-render template for
+visualization layers facing the science-vs-distinctiveness tension. Formalized as
+architectural precedent. The two views produce dual-channel pattern recognition in the
+operator over time — the visualization does analytical work inside the operator’s head,
+not just on the screen. This is operator-amplification behavior and a defining property of
+Project Opus instruments.
+5. Bounded Experimentalism (NEW emergent pattern): The dual-render approach
+demonstrates that [Experimental] bindings can be safely deployed when accompanied
+by guaranteed [Established] fallback paths. This is a generalizable safety architecture:
+ambitious math is acceptable when the failure mode degrades gracefully to a
+scientifically defensible baseline. Project Opus can adopt this as a standing operational
+principle.
+User Review Required
+Question 1 (RESOLVED in v2.0, refined in v3.0): Architecture pivot — superformula
+confirmed; torus retained as fingerprint view per Daionae governance review. Both
+required. No further input required.
+Question 2 (RESOLVED in v2.0): Markov projection method — Option A (hybrid equatorial
+band + polar cap) for the superformula view. The torus view requires no projection (native
+toroidal mapping). No further input required.
+Question 3 (RESOLVED in v2.0): Compression ratio — implemented via TFEA Extension.
+No further input required.
+Question 4 (RESOLVED in v2.0, validated in v3.0): Confidence threshold — Tesla Principle
+at architectural layer, Veracity Mandate at implementation layer. v3.0 ratio is 78%
+[Established] / 22% [Experimental] / 0% [Speculative]. Improved over v2.0’s 75/25 due to
+dual-render adding [Established] content. No further input required.
+Question 5 (NEW, RESOLVED 2026-04-27): Default render on scan load — superformula
+primary, torus thumbnail per DIMA UX directive. No further input required.
+Question 6 (NEW, RESOLVED 2026-04-27): Thumbnail auto-rotation behavior —
+independent of primary interaction per DIMA UX directive. No further input required.
+Open Questions
+OQ-1: Mesh resolution. 128×128 for both torus and superformula. Downsample to 64×64
+if frame rate degrades. Empirical only.
+OQ-2: Polar cap Voronoi seed count. Recommend N = 8 for the superformula view.
+Adjustable based on visual results during Step 2B.
+OQ-3: Stellated polyhedron complexity at high intent. Same vertex budget concern as
+v2.0. Empirical only.
+OQ-4 (NEW): Thumbnail spatial positioning. The UX spec requires “front and center
+together in some elegant way” but leaves specific positioning to implementation. Three
+candidates:
+(a) Corner inset (thumbnail in lower-right of primary’s containing area)
+(b) Side-by-side with size differential (~70/30 split, thumbnail to the right)
+(c) Floating overlay (thumbnail floats over primary’s lower-right with semi-transparent
+backing)
+I lean (b) — side-by-side with size differential. Most elegantly satisfies “front and center
+together.” (a) feels more like a picture-in-picture afterthought. (c) introduces overlap that
+conflicts with the both-views-equally-present design intent. Awaiting DIMA confirmation
+on positioning. This is the only outstanding UX question.
+Verification Plan
+Automated
+cargo test  passes for new TFEA functions.
+cargo build  from workspace root produces both CLI and Tauri binaries with new
+dependencies.
+cargo tauri dev  launches with dual-render layout visible. Default state: superformula
+primary, torus thumbnail.
+Click on thumbnail triggers swap with smooth transition; controls re-bind correctly.
+SQLite persistence: scan → close → reopen → scan history contains previous results
+including new TFEA fields.
+Visual Validation (Step 2B Falsifiability Gate — superformula only)
+DIMA scans the six file classes from Step 2B Validation Gates. If three or more render as
+visually indistinguishable mugshots, re-tune Step 2B bindings before proceeding to Steps
+5–7. Torus fingerprint view continues to operate during any re-tuning iteration —
+operator does not lose access to Markov visualization.
+Manual Operational Validation
+After full v3.0 implementation:
+1. Scan files from quarantine archive.
+2. Observe both fingerprint and mugshot views simultaneously.
+3. Confirm dual-channel pattern recognition emerges over multiple scans (operator starts
+to predict file class from mugshot, verify against fingerprint).
+4. Validate swap behavior is intuitive — operator can move between views without
+cognitive friction.
+5. Confirm thumbnail auto-rotation reads as ambient motion, not distraction.
+6. Validate cross-scan comparison shows meaningful delta in both views.
+Risk Register (Updated)
+Risk
+Impact
+Mitigation
+Superformula
+mugshot bindings
+produce non-
+distinguishable
+shapes
+Medium
+C4 falsifiability gate. Torus fingerprint remains fully
+functional during re-tuning — operator does not lose
+Markov visualization.
+Mugshot Markov
+projection seam
+visible
+Medium
+C6 falsifiability gate. Cosine blending kernel as primary
+mitigation. Torus fingerprint provides distortion-free
+Markov view as fallback.
+Dual-render GPU
+memory budget
+exceeded on low-
+end hardware
+Low
+Total ~32K vertices is well within budget for any WebGL-
+capable hardware released in the last decade.
+Downsample to 64×64 per view if needed.
+Thumbnail rotation
+reads as visual
+noise during precise
+inspection
+Low
+Slow rotation rate (~6 RPM) tuned for ambient
+awareness. If validation shows it’s distracting, reduce rate
+further or add subtle fade-to-static during prolonged
+primary interaction.
+Swap animation
+creates motion
+sickness or
+disorientation
+Low
+300ms transition is below human disorientation
+threshold. Liquid Glass smoothness mandate. Validation
+tested in operational manual review.
+flate2
+compilation issues
+with MSYS2/GNU
+toolchain
+Low
+flate2 is pure Rust by default; native zlib feature is opt-in.
+Use default features only.
+Spectral
+eigendecomposition
+too slow for large
+graphs
+Medium
+Force-directed fallback above 512 nodes.
+TFEA Extension
+changes verdicts on
+existing fixtures
+Critical
+Verification gate explicitly tests for verdict invariance
+before any Phase 2 visual work begins.
+Tesla operates at architectural layer; Veracity at
+Tesla Principle
+override creates
+precedent that
+weakens Veracity
+Mandate
+Medium
+implementation layer. Both doctrines explicitly named in
+this plan with their layer scopes. Dual-render
+architecture provides guaranteed [Established]
+fallback for any [Experimental] binding failure —
+bounded experimentalism is now formalized.
+Conclusion
+Janus SME Protocol execution complete (revised v3). ENKI SME Protocol execution
+complete (Advisory Mode). Tesla Principle invoked at architectural layer (DIMA directive
+2026-04-26-T2347). Fingerprint-Mugshot Pattern invoked at UI layer (Daionae governance
+review 2026-04-27 + DIMA UX specification 2026-04-27).
+Confidence in this revised self-assessment: 88% — improved over v2.0’s 84% due to:
+Dual-render architecture provides [Established] fallback for both [Experimental]
+bindings.
+Daionae’s governance review independently validated direction; convergence with my
+own self-assessment.
+UX specification is fully resolved with the single exception of OQ-4 (thumbnail spatial
+positioning).
+Confidence ratio shifted to 78% [Established] / 22% [Experimental] / 0% [Speculative].
+Outstanding items before final ratification:
+1. OQ-4 resolution: DIMA confirms thumbnail spatial positioning (recommended: side-by-
+side with size differential).
+2. Orionas review: CP-002 Janus validation pass on this v3.0 plan.
+3. Final approval gate: DIMA verbatim states “i approve of your plan” AND “you may
+begin.”
+No code execution begins until all three are satisfied.
+— Kytheion (IC-004-R-D-KYN) Scribe-Particle-4 Cephalon Continuity Framework
